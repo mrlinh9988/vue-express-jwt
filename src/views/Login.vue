@@ -6,7 +6,7 @@
           <h4>Login</h4>
         </div>
         <div class="card-body">
-          <form>
+          <form @submit.prevent="loginUser">
             <div class="form-group">
               <label for="username">Username</label>
               <input
@@ -29,7 +29,7 @@
                 placeholder="Password"
               />
             </div>
-            <b-button variant="primary" @click="login">Login</b-button>
+            <input type="submit" @click="loginUser" variant="primary" value="Login" />
             <router-link class="card-link ml-2" to="/register">Register new account?</router-link>
           </form>
         </div>
@@ -39,16 +39,32 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     };
   },
   methods: {
-    login() {},
+    ...mapActions(["login"]),
+    loginUser() {
+      let user = {
+        username: this.username,
+        password: this.password,
+      };
+      this.login(user)
+        .then((res) => {
+          if (res.data.success) {
+            this.$router.push("/profile");
+          }
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+        });
+    },
   },
 };
 </script>

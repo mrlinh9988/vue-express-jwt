@@ -14,10 +14,12 @@ Vue.use(IconsPlugin);
 
 Vue.config.productionTip = false;
 
-// Load token from local storage
+// Setting up default vue's http module for api calls
 Vue.prototype.$http = axios;
+// Load token from local storage
 const token = localStorage.getItem('token');
 if (token) {
+  // Append default axios authorization headers
   Vue.prototype.$http.defaults.headers.common['Authorization'] = token;
 }
 
