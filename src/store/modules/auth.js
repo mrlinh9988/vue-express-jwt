@@ -27,7 +27,12 @@ const actions = {
   async login({ commit }, user) {
     commit('auth_request');
     try {
-      let res = await axios.post('http://localhost:5000/api/users/login', user);
+      let res = await axios.post(
+        process.env.NODE_ENV !== 'production'
+          ? 'http://localhost:5001/api/users/login'
+          : 'https://linh.mrlinh.xyz/backend/api/users/login',
+        user,
+      );
       if (res.data.success) {
         const token = res.data.token;
         const user = res.data.user;
@@ -46,7 +51,12 @@ const actions = {
   async register({ commit }, userData) {
     commit('register_request');
     try {
-      let res = await axios.post('http://localhost:5000/api/users/register', userData);
+      let res = await axios.post(
+        process.env.NODE_ENV !== 'production'
+          ? 'http://localhost:5001/api/users/register'
+          : 'https://linh.mrlinh.xyz/backend/api/users/register',
+        userData,
+      );
       if (res.data.success) {
         commit('register_success');
       }
@@ -67,7 +77,11 @@ const actions = {
   async getProfile({ commit }) {
     commit('profile_request');
     try {
-      const res = await axios.get('http://localhost:5000/api/users/profile');
+      const res = await axios.get(
+        process.env.NODE_ENV !== 'production'
+          ? 'http://localhost:5001/api/users/profile'
+          : 'https://linh.mrlinh.xyz/backend/api/users/profile',
+      );
       commit('profile_data', res.data.user);
       return res;
     } catch (error) {
