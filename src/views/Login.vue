@@ -10,7 +10,7 @@
             <div class="form-group">
               <label for="username">Username</label>
               <input
-                type="email"
+                type="text"
                 class="form-control"
                 id="username"
                 name="username"
@@ -27,6 +27,7 @@
                 name="password"
                 v-model="password"
                 placeholder="Password"
+                autocomplete="on"
               />
             </div>
             <input type="submit" @click="loginUser" variant="primary" value="Login" />
@@ -39,17 +40,17 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     };
   },
   methods: {
-    ...mapActions(["login"]),
+    ...mapActions(['login']),
     loginUser() {
       let user = {
         username: this.username,
@@ -58,11 +59,13 @@ export default {
       this.login(user)
         .then((res) => {
           if (res.data.success) {
-            this.$router.push("/profile");
+            const path = `/profile`;
+            // Nếu path trùng nhau thì không cần chuyển hướng làm gì
+            if (this.$route.path !== path) this.$router.push(path);
           }
         })
         .catch((error) => {
-          console.log("error: ", error);
+          console.log('error: ', error);
         });
     },
   },

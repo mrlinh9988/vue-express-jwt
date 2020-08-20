@@ -1,14 +1,13 @@
 <template>
   <div>
-    <h1>This is about page</h1>
+    <h3 class="display-3">This is about page</h3>
   </div>
 </template>
 
 <script>
 export default {
-  name: "About",
+  name: 'About',
 };
 </script>
 
-<style>
-</style>
+<style></style>

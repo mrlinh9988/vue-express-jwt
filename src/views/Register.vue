@@ -6,7 +6,7 @@
           <h4>Register</h4>
         </div>
         <div class="card-body">
-          <form>
+          <form @submit.prevent="registerUser">
             <div class="form-group">
               <label for="username">Username</label>
               <input
@@ -48,7 +48,7 @@
                 placeholder="Confirm password"
               />
             </div>
-            <b-button variant="primary" @click="register">Register</b-button>
+            <input class="btn btn-primary" variant="primary" value="Register" type="submit">
             <router-link class="card-link ml-2" to="/login">Already has account?</router-link>
           </form>
         </div>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Register',
   data() {
@@ -70,7 +71,23 @@ export default {
     };
   },
   methods: {
-    register() {},
+    ...mapActions(['register']),
+    registerUser() {
+      let userData = {
+        username: this.username,
+        name: this.name,
+        email: this.email,
+        password: this.password, 
+        confirm_password: this.confirm_password, 
+      }
+      this.register(userData).then(res => {
+        if(res.data.success) {
+          this.$router.push("/login");
+        }
+      }).catch(error => {
+        console.log('error: ', error);
+      });
+    },
   },
 };
 </script>
